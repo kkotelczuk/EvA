@@ -51,3 +51,10 @@ buck-out/
 */fastlane/report.xml
 */fastlane/Preview.html
 */fastlane/screenshots
+
+local.properties
+
+# syncano
+syncano/**/.dist
+syncano/**/.build
+syncano/**/.bundles

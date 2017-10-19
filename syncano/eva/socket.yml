@@ -1,0 +1,199 @@
+name: eva
+version: 0.0.1
+classes:
+  activity:
+    - name: uuid
+      type: string
+      filter_index: true
+    - name: title
+      type: text
+    - name: description
+      type: text
+    - name: address
+      type: string
+    - name: location
+      type: geopoint
+      filter_index: true
+    - name: category
+      type: reference
+      target: category
+      filter_index: true
+    - name: visibility
+      type: string
+      filter_index: true
+    - name: seats
+      type: integer
+    - name: date
+      type: datetime
+      filter_index: true
+    - name: canceled_at
+      type: datetime
+  activity_user:
+    - name: activity
+      type: reference
+      target: activity
+      filter_index: true
+    - name: user
+      type: reference
+      target: user
+      filter_index: true
+    - name: joined_at
+      type: datetime
+  category:
+    - name: name
+      type: string
+  user:
+    - name: phone
+      type: string
+    - name: first_name
+      type: string
+    - name: last_name
+      type: string
+
+endpoints:
+  list-activity:
+    parameters:
+      uuid:
+        type: string
+    response:
+      success:
+        exit_code: 200
+      fail:
+        exit_code: 400
+        parameters:
+          message:
+            type: string
+  get-activity:
+    parameters:
+      id:
+        type: integer
+    response:
+      success:
+        parameters:
+          title:
+            type: text
+          uuid:
+            type: string
+          location:
+            type: geopoint
+          category:
+            type: string
+          visibility:
+            type: string
+          seats:
+            type: integer
+          date:
+            type: datetime
+          canceled_at:
+            type: datetime
+      fail:
+        exit_code: 404
+        parameters:
+          message:
+            type: string
+  create-activity:
+    parameters:
+      title:
+        type: text
+      location:
+        type: geopoint
+      category:
+        type: string
+      visibility:
+        type: string
+      seats:
+        type: integer
+      date:
+        type: datetime
+    response:
+      success:
+        parameters:
+          title:
+            type: text
+          uuid:
+            type: string
+          location:
+            type: geopoint
+          category:
+            type: string
+          visibility:
+            type: string
+          seats:
+            type: integer
+          date:
+            type: datetime
+          canceled_at:
+            type: datetime
+      fail:
+        exit_code: 400
+        parameters:
+          message:
+            type: string
+  update-activity:
+    parameters:
+      uuid:
+        type: string
+      title:
+        type: text
+      location:
+        type: geopoint
+      category:
+        type: string
+      visibility:
+        type: string
+      seats:
+        type: integer
+      date:
+        type: datetime
+    response:
+      success:
+        exit_code: 200
+      fail:
+        exit_code: 400
+        parameters:
+          message:
+            type: string
+  cancel-activity:
+    parameters:
+      uuid:
+        type: string
+    response:
+      success:
+        exit_code: 200
+      fail:
+        exit_code: 404
+        parameters:
+          message:
+            type: string
+  join-activity:
+    parameters:
+      uuid:
+        type: string
+    response:
+      success:
+        exit_code: 200
+      fail:
+        exit_code: 404
+        parameters:
+          message:
+            type: string
+  leave-activity:
+    parameters:
+      uuid:
+        type: string
+    response:
+      success:
+        exit_code: 200
+      fail:
+        exit_code: 404
+        parameters:
+          message:
+            type: string
+  update-profile:
+    parameters:
+      first_name:
+        type: string
+      last_name:
+        type: string
+      phone:
+        type: string
