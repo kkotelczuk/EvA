@@ -1,7 +1,23 @@
-export default (ctx) => {
-  if (ctx.args.firstname && ctx.args.lastname) {
-    ctx.setResponse(new ctx.HttpResponse(200, `Hello ${ctx.args.firstname} ${ctx.args.lastname}!`, 'text/plain'))
-  } else {
-    ctx.setResponse(new ctx.HttpResponse(400, 'Hello stranger!', 'text/plain'))
+import Syncano from 'syncano-server'
+
+export default async ctx => {
+  const {response, data} = new Syncano(ctx)
+
+  try {
+    const {title,location,category,visibility,seats,date} = ctx.args
+    const activity = await data.activity.create({
+      title,
+      location,
+      category,
+      visibility,
+      seats,
+      date,
+    })
+    response.success(activity)
+  }
+  catch (err) {
+    response.fail({
+      message: 'Can not create activity',
+    })
   }
 }

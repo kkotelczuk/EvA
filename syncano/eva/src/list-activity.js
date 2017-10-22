@@ -1,7 +1,9 @@
-export default (ctx) => {
-  if (ctx.args.firstname && ctx.args.lastname) {
-    ctx.setResponse(new ctx.HttpResponse(200, `Hello ${ctx.args.firstname} ${ctx.args.lastname}!`, 'text/plain'))
-  } else {
-    ctx.setResponse(new ctx.HttpResponse(400, 'Hello stranger!', 'text/plain'))
-  }
+import Syncano from 'syncano-server'
+
+export default async ctx => {
+  const {response, data} = new Syncano(ctx)
+
+  const activities = await data.activity.list()
+  // TODO: Handle private activities, add filters
+  response.success(activities)
 }
