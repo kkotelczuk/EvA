@@ -9,8 +9,11 @@ import {
   Platform,
   StyleSheet,
   Text,
-  View
+  View,
+  TextInput,
+  Button,
 } from 'react-native';
+import Syncano from 'syncano-client'
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -19,19 +22,24 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 
+const s = new Syncano('empty-glade-8302')
+
 export default class App extends Component<{}> {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
+        <TextInput
+          placeholder="login"
+        />
+        <TextInput
+          placeholder="password"
+          type="password"
+        />
+        <Button
+          title="Login"
+          color="#841584"
+          onPress={() => s('user-auth/login', {username: 'joe.doe@usa.us', password: 'qwerty'}).then(console.log)}
+        />
       </View>
     );
   }
