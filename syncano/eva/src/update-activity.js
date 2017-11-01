@@ -1,7 +1,21 @@
-export default (ctx) => {
-  if (ctx.args.firstname && ctx.args.lastname) {
-    ctx.setResponse(new ctx.HttpResponse(200, `Hello ${ctx.args.firstname} ${ctx.args.lastname}!`, 'text/plain'))
-  } else {
-    ctx.setResponse(new ctx.HttpResponse(400, 'Hello stranger!', 'text/plain'))
+import Syncano from 'syncano-server'
+import Policy from './utils/policy'
+
+export default async ctx => {
+  const attempt = new Policy(ctx)
+  const {data, response} = new Syncano(ctx)
+
+  attempt(updateActivity, ctx.args)
+    .then(response.success)
+    .catch(err => response.fail({message: err.message}))
+
+  /* ======================================================================== */
+
+  async function updateActivity(args) {
+    const {uuid, title, location, category, visibility, seats, date} = args
+
+    return data.activity.where('uuid', uuid).update({
+      uuid, title, location, category, visibility, seats, date
+    })
   }
 }

@@ -1,6 +1,7 @@
 {
   "license": "MIT",
   "dependencies": {
-    "syncano-server": "beta"
+    "lodash.snakecase": "^4.1.1",
+    "syncano-server": "^1.0.1-13"
   }
 }

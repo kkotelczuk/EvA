@@ -1,7 +1,17 @@
-export default (ctx) => {
-  if (ctx.args.firstname && ctx.args.lastname) {
-    ctx.setResponse(new ctx.HttpResponse(200, `Hello ${ctx.args.firstname} ${ctx.args.lastname}!`, 'text/plain'))
-  } else {
-    ctx.setResponse(new ctx.HttpResponse(400, 'Hello stranger!', 'text/plain'))
+import Syncano from 'syncano-server'
+import Policy from './utils/policy'
+
+export default async ctx => {
+  const attempt = new Policy(ctx)
+  const {data, response} = new Syncano(ctx)
+
+  attempt(listActivity)
+    .then(response.success)
+    .catch(err => response.fail({message: err.message}))
+
+  /* ======================================================================== */
+
+  async function listActivity(uuid) {
+    return data.activity.list()
   }
 }

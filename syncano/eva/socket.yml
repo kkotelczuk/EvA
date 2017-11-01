@@ -1,10 +1,14 @@
 name: eva
 version: 0.0.1
+
 classes:
   activity:
     - name: uuid
       type: string
       filter_index: true
+    - name: author
+      type: reference
+      target: user
     - name: title
       type: text
     - name: description
@@ -52,9 +56,6 @@ classes:
 
 endpoints:
   list-activity:
-    parameters:
-      uuid:
-        type: string
     response:
       success:
         exit_code: 200
@@ -65,7 +66,7 @@ endpoints:
             type: string
   get-activity:
     parameters:
-      id:
+      uuid:
         type: integer
     response:
       success:
